@@ -2,6 +2,7 @@
   --default-family: "Open Sans", Arial, sans-serif;
   --primary-color: #222831;
   --secondary-color: #EEEEEE;
+  --highlight-color: #00ADB5;
 }
 
 * {
@@ -15,4 +16,14 @@ body {
   background-color: var(--primary-color);
   color: var(--secondary-color);
   overflow-x: hidden;
+}
+
+/* Utilities */
+.container {
+  width: 80vw;
+  margin: 0 auto;
+}
+
+.text-highlight {
+  color: var(--highlight-color); 
 }

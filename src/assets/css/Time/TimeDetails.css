@@ -1,0 +1,16 @@
+.time-details {
+  margin: 2rem 0;
+}
+
+.current-date,
+.current-time,
+.time-perc {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.time-perc {
+  margin-top: 2rem;
+  font-size: 1.5rem;
+}

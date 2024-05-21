@@ -1,9 +1,13 @@
-import './App.css'
+import './assets/css/App.css'
+import TimeDetails from './components/TimeDetails'
+import TimeList from './components/TimeList'
 
 function App() {
-
   return (
-    <h1>Hello, World!</h1>
+    <div className="container">
+      <TimeDetails />
+      <TimeList />
+    </div>
   )
 }
 

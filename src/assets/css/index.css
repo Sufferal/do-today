@@ -21,7 +21,7 @@ body {
 /* Utilities */
 .container {
   width: 80vw;
-  margin: 0 auto;
+  margin: 0 auto 10rem;
 }
 
 .text-highlight {

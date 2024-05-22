@@ -1,29 +1,32 @@
-import { useState, useEffect } from "react";
+import { useBetween } from "use-between";
+import { useTime } from "../hooks/useTime";
 import "../assets/css/Time/TimeDetails.css";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import TimeItem from "./TimeItem";
 
 const TimeDetails = () => {
-  const [time, setTime] = useState(new Date());
+  const { period, setPeriod, getHoursSinceMonday, currentDate, currentTime, dayTimePerc } =
+    useBetween(useTime);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTime(new Date());
-    }, 1000);
+  let detailOutput = "";
+  switch (period) {
+    case "today":
+      detailOutput = dayTimePerc + "%";
+      break;
+    
+    case "week":
+      detailOutput = getHoursSinceMonday() + " hours";
+      break;
 
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
+    default:
+      console.log("No such period exists!");
+  }
 
-  const currentDate = time.toLocaleDateString(undefined, {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
-  const currentTime = time.toLocaleTimeString();
-
-  const secondsSinceMidnight = time.getHours() * 3600 + time.getMinutes() * 60 + time.getSeconds();
-  const totalSecondsInDay = 24 * 60 * 60;
-  const timePerc = (secondsSinceMidnight / totalSecondsInDay * 100).toFixed(2);
+  const handleChange = (event) => {
+    setPeriod(event.target.value);
+  };
 
   return (
     <div className="time-details">
@@ -31,9 +34,33 @@ const TimeDetails = () => {
         <span className="text-highlight">Today</span> is {currentDate}
       </h2>
       <h2 className="current-time">{currentTime}</h2>
-      <h3 className="time-perc">
-        Time elapsed today: <span className="text-highlight">{timePerc}%</span>
+      <h3 className="time-perc-title">
+        Time elapsed
+        <FormControl>
+          <Select
+            value={period}
+            onChange={handleChange}
+            displayEmpty
+            inputProps={{ "aria-label": "Without label" }}
+          >
+            <MenuItem value={"today"}>Today</MenuItem>
+            <MenuItem value={"week"}>Week</MenuItem>
+            <MenuItem value={"month"}>Month</MenuItem>
+            <MenuItem value={"year"}>Year</MenuItem>
+          </Select>
+        </FormControl>
+        <span className="text-highlight">{detailOutput}</span>
       </h3>
+      <div className="time-legend">
+        <div className="legend-option">
+          <TimeItem isActive={false} />
+          <h3 className="legend-title"> - remaining</h3>
+        </div>
+        <div className="legend-option">
+          <TimeItem isActive={true} />
+          <h3 className="legend-title"> - elapsed</h3>
+        </div>
+      </div>
     </div>
   );
 };

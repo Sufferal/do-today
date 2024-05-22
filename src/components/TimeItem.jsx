@@ -1,8 +1,11 @@
 import '../assets/css/Time/TimeItem.css'
 
-const TimeItem = () => {
+const TimeItem = ({ isActive, cellSize = '30px' }) => {
+  const isActiveClass = isActive ? 'active' : '';
+  const cellStyle = { width: cellSize, height: cellSize };
+
   return (
-    <div className="time-cell"></div>
+    <div className={`time-cell ${isActiveClass}`} style={cellStyle}></div>
   )
 }
 

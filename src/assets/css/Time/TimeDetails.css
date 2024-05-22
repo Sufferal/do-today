@@ -4,13 +4,32 @@
 
 .current-date,
 .current-time,
-.time-perc {
+.time-perc-title {
   text-align: center;
   font-size: 2rem;
   margin-bottom: 0.75rem;
 }
 
-.time-perc {
+.time-perc-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
   margin-top: 2rem;
   font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.time-legend {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+}
+
+.legend-option {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;  
 }

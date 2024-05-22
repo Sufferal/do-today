@@ -1,6 +1,7 @@
 .time-cell {
-  --cell-size: 30px;
-  width: var(--cell-size);
-  height: var(--cell-size);
   background-color: var(--secondary-color);
+
+  &.active {
+    background-color: var(--highlight-color);
+  } 
 }

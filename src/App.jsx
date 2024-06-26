@@ -17,6 +17,8 @@ function App() {
   let listOuput = [];
   let maxWidth = "100px";
   let cellSize = "10px";
+  const daysOfWeek = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+
   switch (period) {
     case "today":
       maxWidth = "500px";
@@ -28,15 +30,9 @@ function App() {
     case "week":
       maxWidth = "300px";
       cellSize = "20px";
-      listOuput = [
-        <TimeItemList key="monday"    maxWidth={maxWidth} cellSize={cellSize} desc="monday" />,
-        <TimeItemList key="tuesday"   maxWidth={maxWidth} cellSize={cellSize} desc="tuesday" />,
-        <TimeItemList key="wednesday" maxWidth={maxWidth} cellSize={cellSize} desc="wednesday" />,
-        <TimeItemList key="thursday"  maxWidth={maxWidth} cellSize={cellSize} desc="thursday" />,
-        <TimeItemList key="friday"    maxWidth={maxWidth} cellSize={cellSize} desc="friday" />,
-        <TimeItemList key="saturday"  maxWidth={maxWidth} cellSize={cellSize} desc="saturday" />,
-        <TimeItemList key="sunday"    maxWidth={maxWidth} cellSize={cellSize} desc="sunday" />
-      ]
+      listOuput = daysOfWeek.map((day) => (
+        <TimeItemList key={day} maxWidth={maxWidth} cellSize={cellSize} desc={day} />
+      ));
       break;
     default:
       console.log('No such period exists!');

@@ -13,11 +13,11 @@ const TimeDetails = () => {
   let detailOutput = "";
   switch (period) {
     case "today":
-      detailOutput = dayTimePerc + "%";
+      detailOutput = dayTimePerc + " / 100%";
       break;
     
     case "week":
-      detailOutput = getHoursSinceMonday() + " hours";
+      detailOutput = getHoursSinceMonday() + " / 168 hours";
       break;
 
     default:

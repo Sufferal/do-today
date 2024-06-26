@@ -3,8 +3,17 @@ import { useState } from "react";
 
 export const useTime = () => {
   const [time, setTime] = useState(new Date()); 
-  const [period, setPeriod] = useState("today");
+  const [period, setPeriod] = useState(
+    localStorage.getItem("period") ||  
+    "today"
+  );
 
+  // Update localStorage whenever period changes
+  useEffect(() => {
+    localStorage.setItem("period", period);
+  }, [period]);
+
+  // This is for the time to update every second
   useEffect(() => {
     const timer = setInterval(() => {
       setTime(new Date());
@@ -15,6 +24,7 @@ export const useTime = () => {
     };
   }, []);
 
+  // This is for the time that is displayed (every second)
   const currentDate = time.toLocaleDateString(undefined, {
     month: "long",
     day: "numeric",
@@ -22,11 +32,13 @@ export const useTime = () => {
   });
   const currentTime = time.toLocaleTimeString();
 
+  // DAY - This is for the percentage of the day that has passed
   const secondsSinceMidnight =
     time.getHours() * 3600 + time.getMinutes() * 60 + time.getSeconds();
   const totalSecondsInDay = 24 * 60 * 60;
   const dayTimePerc = ((secondsSinceMidnight / totalSecondsInDay) * 100).toFixed(2);
 
+  // WEEK - This is for the percentage of the week that has passed
   const getWeekTime = (day, index) => {
     let timeIndex = time.getDay();
     timeIndex = timeIndex === 0 ? 7 : timeIndex;
@@ -50,6 +62,7 @@ export const useTime = () => {
     return false;
   };
 
+  // WEEK - This is for the number of hours that have passed since Monday
   const getHoursSinceMonday = () => {
     let day = time.getDay();
     day = day === 0 ? 7 : day; 

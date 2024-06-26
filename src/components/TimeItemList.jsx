@@ -8,27 +8,18 @@ const TimeList = ({ maxWidth, cellSize, desc }) => {
   const dayItemsCount = Math.floor(dayTimePerc);
 
   let timeItems = [];
-  switch(desc) {
-    case "today":
-      timeItems = Array.from({ length: 100 }, (_, index) => (
-        <TimeItem key={index} isActive={index < dayItemsCount} cellSize={cellSize} />
-      )); 
-      break;
+  const daysOfWeek = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 
-    case "monday":
-    case "tuesday":
-    case "wednesday":
-    case "thursday":
-    case "friday":
-    case "saturday":
-    case "sunday":
-      timeItems = Array.from({ length: 24 }, (_, index) => (
-        <TimeItem key={index} isActive={getWeekTime(desc, index)} cellSize={cellSize} />
-      ));
-      break;
-
-    default:
-      console.log('No such period exists!');
+  if (desc === "today") {
+    timeItems = Array.from({ length: 100 }, (_, index) => (
+      <TimeItem key={index} isActive={index < dayItemsCount} cellSize={cellSize} />
+    ));
+  } else if (daysOfWeek.includes(desc)) {
+    timeItems = Array.from({ length: 24 }, (_, index) => (
+      <TimeItem key={index} isActive={getWeekTime(desc, index)} cellSize={cellSize} />
+    ));
+  } else {
+    console.log('No such period exists!');
   }
 
   const listStyle = { maxWidth: maxWidth };

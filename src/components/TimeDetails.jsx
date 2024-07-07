@@ -7,17 +7,35 @@ import Select from "@mui/material/Select";
 import TimeItem from "./TimeItem";
 
 const TimeDetails = () => {
-  const { period, setPeriod, getHoursSinceMonday, currentDate, currentTime, dayTimePerc } =
-    useBetween(useTime);
+  const {
+    time,
+    months,
+    period,
+    setPeriod,
+    getHoursSinceMonday,
+    currentDate,
+    currentTime,
+    dayTimePerc,
+    getMonthDays,
+    getDaysSinceMonthStart,
+  } = useBetween(useTime);
 
   let detailOutput = "";
   switch (period) {
     case "today":
       detailOutput = dayTimePerc + " / 100%";
       break;
-    
+
     case "week":
       detailOutput = getHoursSinceMonday() + " / 168 hours";
+      break;
+
+    case "month":
+      detailOutput =
+        getDaysSinceMonthStart() +
+        " / " +
+        getMonthDays(months[time.getMonth()]) +
+        " days";
       break;
 
     default:

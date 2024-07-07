@@ -12,28 +12,37 @@ const darkTheme = createTheme({
 });
 
 function App() {
-  const { period } = useBetween(useTime);
+  const { period, time, daysOfWeek, months } = useBetween(useTime);
 
-  let listOuput = [];
+  let listOutput = [];
   let maxWidth = "100px";
   let cellSize = "10px";
-  const daysOfWeek = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 
   switch (period) {
     case "today":
       maxWidth = "500px";
       cellSize = "35px";
-      listOuput = [
+      listOutput = [
         <TimeItemList key="today" maxWidth={maxWidth} cellSize={cellSize} desc="today" /> 
       ]
       break;
+
     case "week":
       maxWidth = "300px";
       cellSize = "20px";
-      listOuput = daysOfWeek.map((day) => (
+      listOutput = daysOfWeek.map((day) => (
         <TimeItemList key={day} maxWidth={maxWidth} cellSize={cellSize} desc={day} />
       ));
       break;
+
+    case "month":
+      maxWidth = "550px";
+      cellSize = "40px";
+      listOutput = [
+        <TimeItemList key="month" maxWidth={maxWidth} cellSize={cellSize} desc={months[time.getMonth()]} />
+      ]
+      break;
+
     default:
       console.log('No such period exists!');
   }
@@ -43,7 +52,7 @@ function App() {
       <div className="container">
         <TimeDetails />
         <div className="list-wrapper">
-          {listOuput.length > 0 ? listOuput 
+          {listOutput.length > 0 ? listOutput 
           : (<h2 className="text-highlight">No data to display!</h2>)}
         </div>
       </div>

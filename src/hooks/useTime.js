@@ -2,11 +2,33 @@ import { useEffect } from "react";
 import { useState } from "react";
 
 export const useTime = () => {
-  const [time, setTime] = useState(new Date()); 
+  const [time, setTime] = useState(new Date());
   const [period, setPeriod] = useState(
-    localStorage.getItem("period") ||  
-    "today"
+    localStorage.getItem("period") || "today"
   );
+  const daysOfWeek = [
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
+  ];
+  const months = [
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december",
+  ];
 
   // Update localStorage whenever period changes
   useEffect(() => {
@@ -36,21 +58,24 @@ export const useTime = () => {
   const secondsSinceMidnight =
     time.getHours() * 3600 + time.getMinutes() * 60 + time.getSeconds();
   const totalSecondsInDay = 24 * 60 * 60;
-  const dayTimePerc = ((secondsSinceMidnight / totalSecondsInDay) * 100).toFixed(2);
+  const dayTimePerc = (
+    (secondsSinceMidnight / totalSecondsInDay) *
+    100
+  ).toFixed(2);
 
-  // WEEK - This is for the percentage of the week that has passed
+  // WEEK - This is for true or false if the day has passed
   const getWeekTime = (day, index) => {
     let timeIndex = time.getDay();
     timeIndex = timeIndex === 0 ? 7 : timeIndex;
     const argDays = {
-      "monday": 1,
-      "tuesday": 2,
-      "wednesday": 3,
-      "thursday": 4,
-      "friday": 5,
-      "saturday": 6,
-      "sunday": 7,
-    };    
+      monday: 1,
+      tuesday: 2,
+      wednesday: 3,
+      thursday: 4,
+      friday: 5,
+      saturday: 6,
+      sunday: 7,
+    };
     let dayIndex = argDays[day];
 
     if (dayIndex < timeIndex) {
@@ -65,11 +90,63 @@ export const useTime = () => {
   // WEEK - This is for the number of hours that have passed since Monday
   const getHoursSinceMonday = () => {
     let day = time.getDay();
-    day = day === 0 ? 7 : day; 
+    day = day === 0 ? 7 : day;
     const todayHours = time.getHours();
 
     return (day - 1) * 24 + todayHours;
   };
 
-  return { period, setPeriod, time, getWeekTime, getHoursSinceMonday, currentDate, currentTime, dayTimePerc }; 
+  // MONTH - Get the count of days in a month
+  const getMonthDays = (month) => {
+    const monthDays = {
+      january: 31,
+      february: 28,
+      march: 31,
+      april: 30,
+      may: 31,
+      june: 30,
+      july: 31,
+      august: 31,
+      september: 30,
+      october: 31,
+      november: 30,
+      december: 31,
+    };
+
+    if (month === "february") {
+      const year = time.getFullYear();
+      if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
+        return 29;
+      }
+    }
+
+    return monthDays[month];
+  };
+
+  // MONTH - This is to check if the day has passed
+  const getMonthTime = (index) => {
+    const todayDate = time.getDate();
+    return index < todayDate;
+  }
+
+  // MONTH - Get days since the start of the month
+  const getDaysSinceMonthStart = () => {
+    return time.getDate();
+  };
+
+  return {
+    period,
+    setPeriod,
+    time,
+    getWeekTime,
+    getHoursSinceMonday,
+    currentDate,
+    currentTime,
+    dayTimePerc,
+    daysOfWeek,
+    months,
+    getMonthDays,
+    getMonthTime,
+    getDaysSinceMonthStart
+  };
 };

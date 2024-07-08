@@ -6,12 +6,14 @@ import { useTime } from "../hooks/useTime";
 const TimeList = ({ maxWidth, cellSize, desc }) => {
   const {
     time,
+    period, 
     getWeekTime,
     dayTimePerc,
     daysOfWeek,
     months,
     getMonthDays,
     getMonthTime,
+    getYearTime
   } = useBetween(useTime);
   const dayItemsCount = Math.floor(dayTimePerc);
 
@@ -41,6 +43,17 @@ const TimeList = ({ maxWidth, cellSize, desc }) => {
         cellSize={cellSize}
       />
     ));
+  } else if (months.includes(desc.split("_")[1])) {
+    const month = desc.split("_")[1];
+    desc = month; 
+
+    timeItems = Array.from({ length: getMonthDays(month) }, (_, index) => (
+      <TimeItem
+        key={index}
+        isActive={getYearTime(month, index)}
+        cellSize={cellSize}
+      />
+    ));
   } else {
     console.log("No such period exists!");
   }
@@ -56,7 +69,7 @@ const TimeList = ({ maxWidth, cellSize, desc }) => {
     <div className="time-list-wrapper" style={listStyle}>
       <h2 className={`list-title ${descStyle}`}>
         {capitalize(desc)}
-        {months.includes(desc) ? `, ${time.getFullYear()}` : ""}
+        {period === "month" ? `, ${time.getFullYear()}` : ""}
       </h2>
       <div className="time-list">{timeItems}</div>
     </div>

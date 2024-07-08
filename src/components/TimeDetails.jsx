@@ -18,8 +18,11 @@ const TimeDetails = () => {
     dayTimePerc,
     getMonthDays,
     getDaysSinceMonthStart,
+    getDayOfYear,
+    isLeapYear 
   } = useBetween(useTime);
 
+  const yearDays = isLeapYear(time.getFullYear()) ? 366 : 365;
   let detailOutput = "";
   switch (period) {
     case "today":
@@ -36,6 +39,10 @@ const TimeDetails = () => {
         " / " +
         getMonthDays(months[time.getMonth()]) +
         " days";
+      break;
+
+    case "year":
+      detailOutput = getDayOfYear(time) + " / " + yearDays + " days";
       break;
 
     default:

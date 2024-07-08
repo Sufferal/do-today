@@ -43,6 +43,14 @@ function App() {
       ]
       break;
 
+    case "year":
+      maxWidth = "300px";
+      cellSize = "15px";
+      listOutput = months.map((month) => (
+        <TimeItemList key={month} maxWidth={maxWidth} cellSize={cellSize} desc={`year_${month}`} />
+      ));
+      break;
+
     default:
       console.log('No such period exists!');
   }

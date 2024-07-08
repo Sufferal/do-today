@@ -115,7 +115,7 @@ export const useTime = () => {
 
     if (month === "february") {
       const year = time.getFullYear();
-      if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
+      if (isLeapYear(year)) {
         return 29;
       }
     }
@@ -127,12 +127,34 @@ export const useTime = () => {
   const getMonthTime = (index) => {
     const todayDate = time.getDate();
     return index < todayDate;
-  }
+  };
 
   // MONTH - Get days since the start of the month
   const getDaysSinceMonthStart = () => {
     return time.getDate();
   };
+  
+  // YEAR - Constants
+  const firstDayOfYear = new Date(time.getFullYear(), 0, 1);
+
+  // YEAR - Is the year a leap year?
+  const isLeapYear = (year) => {
+    return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+  };
+
+   // YEAR - Get the day of the year (1-365)
+  const getDayOfYear = (date) => {
+    const diff = date - firstDayOfYear;
+    const oneDay = 1000 * 60 * 60 * 24;
+    const day = Math.floor(diff / oneDay);
+    return day + 1;
+  };
+
+  // YEAR - This is to check if the month has passed
+  const getYearTime = (month, index) => {
+    const tempDayOfYear = getDayOfYear(new Date(time.getFullYear(), months.indexOf(month) + 1, index + 1));
+    return tempDayOfYear < getDayOfYear(time);
+  }; 
 
   return {
     period,
@@ -147,6 +169,9 @@ export const useTime = () => {
     months,
     getMonthDays,
     getMonthTime,
-    getDaysSinceMonthStart
+    getDaysSinceMonthStart,
+    getDayOfYear, 
+    getYearTime,
+    isLeapYear 
   };
 };

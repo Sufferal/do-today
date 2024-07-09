@@ -51,6 +51,14 @@ function App() {
       ));
       break;
 
+    case "life":
+      maxWidth = "500px";
+      cellSize = "35px";
+      listOutput = [
+        <TimeItemList key="life" maxWidth={maxWidth} cellSize={cellSize} desc="life" />
+      ]
+      break;
+
     default:
       console.log('No such period exists!');
   }

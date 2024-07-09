@@ -20,6 +20,28 @@
   margin-bottom: 2rem;
 }
 
+.time-life-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+  gap: 4rem;
+}
+
+.time-life-input {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.time-lifespan-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
 .time-legend {
   display: flex;
   justify-content: center;

@@ -5,15 +5,18 @@ import { useTime } from "../hooks/useTime";
 
 const TimeList = ({ maxWidth, cellSize, desc }) => {
   const {
+    lifespan, 
     time,
-    period, 
+    period,
+    capitalize, 
     getWeekTime,
     dayTimePerc,
     daysOfWeek,
     months,
     getMonthDays,
     getMonthTime,
-    getYearTime
+    getYearTime,
+    getLifeTime
   } = useBetween(useTime);
   const dayItemsCount = Math.floor(dayTimePerc);
 
@@ -45,12 +48,20 @@ const TimeList = ({ maxWidth, cellSize, desc }) => {
     ));
   } else if (months.includes(desc.split("_")[1])) {
     const month = desc.split("_")[1];
-    desc = month; 
+    desc = month;
 
     timeItems = Array.from({ length: getMonthDays(month) }, (_, index) => (
       <TimeItem
         key={index}
         isActive={getYearTime(month, index)}
+        cellSize={cellSize}
+      />
+    ));
+  } else if (desc === "life") {
+    timeItems = Array.from({ length: lifespan}, (_, index) => (
+      <TimeItem
+        key={index}
+        isActive={getLifeTime(index)}
         cellSize={cellSize}
       />
     ));
@@ -61,9 +72,6 @@ const TimeList = ({ maxWidth, cellSize, desc }) => {
   const listStyle = { maxWidth: maxWidth };
   const descStyle =
     desc === "saturday" || desc === "sunday" ? "text-highlight" : "";
-  const capitalize = (string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
 
   return (
     <div className="time-list-wrapper" style={listStyle}>

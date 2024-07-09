@@ -5,6 +5,8 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import TimeItem from "./TimeItem";
+import Birthday from "./Birthday";
+import Lifespan from "./Lifespan";
 
 const TimeDetails = () => {
   const {
@@ -19,7 +21,8 @@ const TimeDetails = () => {
     getMonthDays,
     getDaysSinceMonthStart,
     getDayOfYear,
-    isLeapYear 
+    getAge,
+    isLeapYear,
   } = useBetween(useTime);
 
   const yearDays = isLeapYear(time.getFullYear()) ? 366 : 365;
@@ -43,6 +46,10 @@ const TimeDetails = () => {
 
     case "year":
       detailOutput = getDayOfYear(time) + " / " + yearDays + " days";
+      break;
+
+    case "life":
+      detailOutput = getAge() +  " years";
       break;
 
     default:
@@ -72,10 +79,28 @@ const TimeDetails = () => {
             <MenuItem value={"week"}>Week</MenuItem>
             <MenuItem value={"month"}>Month</MenuItem>
             <MenuItem value={"year"}>Year</MenuItem>
+            <MenuItem value={"life"}>Life</MenuItem>
           </Select>
         </FormControl>
         <span className="text-highlight">{detailOutput}</span>
       </h3>
+
+      {period === "life" && (
+        <div className="time-life-wrapper">
+          <div className="time-life-input">
+            <h3 className="text-highlight">Date of birth</h3>
+            <Birthday />
+          </div>
+          <div className="time-life-input">
+            <h3>Expected lifespan</h3>
+            <div className="time-lifespan-wrapper">
+              <Lifespan />
+              <h3> years</h3>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="time-legend">
         <div className="legend-option">
           <TimeItem isActive={false} />

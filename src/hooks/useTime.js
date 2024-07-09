@@ -3,6 +3,8 @@ import { useState } from "react";
 
 export const useTime = () => {
   const [time, setTime] = useState(new Date());
+  const [birthday, setBirthday] = useState(new Date(2000, 0, 1));
+  const [lifespan, setLifespan] = useState(80); 
   const [period, setPeriod] = useState(
     localStorage.getItem("period") || "today"
   );
@@ -53,6 +55,10 @@ export const useTime = () => {
     year: "numeric",
   });
   const currentTime = time.toLocaleTimeString();
+  
+  const capitalize = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
 
   // DAY - This is for the percentage of the day that has passed
   const secondsSinceMidnight =
@@ -156,10 +162,48 @@ export const useTime = () => {
     return tempDayOfYear < getDayOfYear(time);
   }; 
 
+  // LIFE - This is to check if the life has passed
+  const getLifeTime = (index) => {
+    const currentYear = time.getFullYear();
+    const birthYear = birthday.getFullYear();
+    const yearsSinceBirth = currentYear - birthYear;
+
+    // Check if the current month/date is before the birth month/date
+    const beforeBirthdayThisYear = time.getMonth() < birthday.getMonth() ||
+      (time.getMonth() === birthday.getMonth() && time.getDate() < birthday.getDate());
+
+    // Adjust the yearsSinceBirth if the current date is before the birthday in the current year
+    const adjustedYearsSinceBirth = beforeBirthdayThisYear ? yearsSinceBirth - 1 : yearsSinceBirth;
+
+    return index < adjustedYearsSinceBirth;
+  };
+
+  // LIFE - Get the age
+  const getAge = () => {
+    const currentYear = time.getFullYear();
+    const birthYear = birthday.getFullYear();
+    const currentMonth = time.getMonth();
+    const birthMonth = birthday.getMonth();
+    const currentDate = time.getDate();
+    const birthDate = birthday.getDate();
+
+    let age = currentYear - birthYear;
+    if (currentMonth < birthMonth || (currentMonth === birthMonth && currentDate < birthDate)) {
+      age--; // Adjust age if the current date is before the birthday in the current year
+    }
+
+    return age;
+  };
+
   return {
+    capitalize,
     period,
     setPeriod,
     time,
+    birthday,
+    setBirthday,
+    lifespan,
+    setLifespan,
     getWeekTime,
     getHoursSinceMonday,
     currentDate,
@@ -172,6 +216,8 @@ export const useTime = () => {
     getDaysSinceMonthStart,
     getDayOfYear, 
     getYearTime,
+    getLifeTime,
+    getAge,
     isLeapYear 
   };
 };

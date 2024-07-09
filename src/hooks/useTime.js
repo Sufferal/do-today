@@ -152,7 +152,7 @@ export const useTime = () => {
 
   // YEAR - This is to check if the month has passed
   const getYearTime = (month, index) => {
-    const tempDayOfYear = getDayOfYear(new Date(time.getFullYear(), months.indexOf(month) + 1, index + 1));
+    const tempDayOfYear = getDayOfYear(new Date(time.getFullYear(), months.indexOf(month), index + 1));
     return tempDayOfYear < getDayOfYear(time);
   }; 
 

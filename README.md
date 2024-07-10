@@ -2,7 +2,7 @@
 Visualise the time on different scales to get a better understanding of how you spend it. 
 
 ## Live Demo
-[https://github.com/Sufferal/time/](https://github.com/Sufferal/time/)
+[https://sufferal.github.io/time/](https://sufferal.github.io/time/)
 
 ## Goal
 Sometimes you get lost in the daily activities and don't realize how much time you spend on them. When you take a bird's eye view of your time, it reminds you how valueable it is and how you should spend it wisely.

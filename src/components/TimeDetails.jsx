@@ -110,6 +110,10 @@ const TimeDetails = () => {
           <TimeItem isActive={true} />
           <h3 className="legend-title"> - elapsed</h3>
         </div>
+        <div className="legend-option">
+          <TimeItem isActive={true} isCurrent={true} />
+          <h3 className="legend-title"> - current</h3>
+        </div>
       </div>
     </div>
   );

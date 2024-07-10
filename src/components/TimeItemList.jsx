@@ -6,6 +6,7 @@ import { useTime } from "../hooks/useTime";
 const TimeList = ({ maxWidth, cellSize, desc }) => {
   const {
     lifespan, 
+    getAge,
     time,
     period,
     capitalize, 
@@ -27,26 +28,37 @@ const TimeList = ({ maxWidth, cellSize, desc }) => {
       <TimeItem
         key={index}
         isActive={index < dayItemsCount}
+        isCurrent={index < dayItemsCount && index + 1 === dayItemsCount}
         cellSize={cellSize}
       />
     ));
   } else if (daysOfWeek.includes(desc)) {
+    const currentDay = new Date().getDay() - 1;
+    const currentHour = new Date().getHours() - 1;
+    const isToday = desc === daysOfWeek[currentDay];
+
     timeItems = Array.from({ length: 24 }, (_, index) => (
       <TimeItem
         key={index}
         isActive={getWeekTime(desc, index)}
+        isCurrent={isToday && index === currentHour}
         cellSize={cellSize}
       />
     ));
   } else if (months.includes(desc)) {
+    const currentDayIndex = new Date().getDate() - 1;
+
     timeItems = Array.from({ length: getMonthDays(desc) }, (_, index) => (
       <TimeItem
         key={index}
         isActive={getMonthTime(index)}
+        isCurrent={index === currentDayIndex}
         cellSize={cellSize}
       />
     ));
   } else if (months.includes(desc.split("_")[1])) {
+    const currentMonthIndex = new Date().getMonth();
+    const currentDayIndex = new Date().getDate() - 1;
     const month = desc.split("_")[1];
     desc = month;
 
@@ -54,6 +66,7 @@ const TimeList = ({ maxWidth, cellSize, desc }) => {
       <TimeItem
         key={index}
         isActive={getYearTime(month, index)}
+        isCurrent={currentMonthIndex === months.indexOf(month) && index === currentDayIndex}
         cellSize={cellSize}
       />
     ));
@@ -62,6 +75,7 @@ const TimeList = ({ maxWidth, cellSize, desc }) => {
       <TimeItem
         key={index}
         isActive={getLifeTime(index)}
+        isCurrent={index + 1 === getAge() }
         cellSize={cellSize}
       />
     ));
